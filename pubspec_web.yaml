@@ -1,0 +1,40 @@
+name: vista
+description: VISTA Mobile App - Flutter Web Version
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Core UI and responsive design
+  sizer: ^2.0.15
+  flutter_svg: ^2.0.9
+  google_fonts: ^6.1.0
+  shared_preferences: ^2.2.2
+  
+  # Web-compatible dependencies only
+  connectivity_plus: ^6.1.4
+  dio: ^5.4.0
+  fluttertoast: ^8.2.4
+  fl_chart: ^0.65.0
+  flutter_slidable: ^4.0.1
+  supabase_flutter: ^2.10.0
+  universal_html: ^2.2.4
+  flutter_dotenv: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/
+    - lib/theme/
+    - .env
