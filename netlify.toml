@@ -1,6 +1,6 @@
 [build]
   publish = "build/web"
-  command = "echo 'Manual deployment - upload build/web folder directly'"
+  command = "mkdir -p build/web && echo 'Ready for manual deployment' > build/web/index.html"
 
 [build.environment]
   FLUTTER_WEB = "true"
