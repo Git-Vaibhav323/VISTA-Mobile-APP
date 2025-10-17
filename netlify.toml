@@ -1,10 +1,9 @@
 [build]
   publish = "build/web"
-  command = "bash simple_build.sh"
+  command = "echo 'Manual deployment - upload build/web folder directly'"
 
 [build.environment]
   FLUTTER_WEB = "true"
-  NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"

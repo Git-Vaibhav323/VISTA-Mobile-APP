@@ -14,22 +14,59 @@ else
     mkdir -p /opt
     cd /opt
     
-    # Download Flutter with retry mechanism
-    for i in {1..3}; do
-        echo "Attempt $i: Downloading Flutter..."
-        if wget -q --timeout=30 https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.2-stable.tar.xz; then
-            echo "✅ Download successful"
-            break
+    # Try different Flutter download methods
+    echo "📥 Trying direct download with curl..."
+    if curl -fsSL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.2-stable.tar.xz -o flutter.tar.xz; then
+        echo "✅ Curl download successful"
+    else
+        echo "📥 Trying alternative download..."
+        # Try a different version that's known to work
+        if curl -fsSL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz -o flutter.tar.xz; then
+            echo "✅ Alternative version download successful"
         else
-            echo "❌ Download failed, retrying..."
-            sleep 5
+            echo "📥 Trying git clone method..."
+            git clone https://github.com/flutter/flutter.git -b stable --depth 1
+            if [ -d "flutter" ]; then
+                echo "✅ Git clone successful"
+                mv flutter /opt/
+                export PATH=/opt/flutter/bin:$PATH
+                flutter --version
+                cd $BUILD_DIR || cd /opt/build/repo
+                echo "🔧 Configuring Flutter..."
+                flutter config --no-analytics || echo "Warning: Could not disable analytics"
+                flutter config --enable-web || echo "Warning: Could not enable web"
+                # Skip to dependencies section
+                echo "📦 Preparing for web build..."
+                if [ -f "pubspec_web.yaml" ]; then
+                    echo "Using web-compatible dependencies..."
+                    cp pubspec_web.yaml pubspec.yaml
+                fi
+                flutter clean || echo "Warning: Flutter clean failed"
+                echo "📦 Getting dependencies..."
+                flutter pub get
+                echo "🏗️ Building web application..."
+                flutter build web --release --web-renderer html
+                if [ -d "build/web" ]; then
+                    echo "✅ Build completed successfully!"
+                    ls -la build/web/
+                    exit 0
+                else
+                    echo "❌ Build failed"
+                    exit 1
+                fi
+            else
+                echo "❌ All download methods failed"
+                exit 1
+            fi
         fi
-    done
+    fi
     
-    # Extract Flutter
-    echo "📂 Extracting Flutter..."
-    tar -xf flutter_linux_3.22.2-stable.tar.xz
-    rm flutter_linux_3.22.2-stable.tar.xz
+    # Extract Flutter if we have the tar file
+    if [ -f "flutter.tar.xz" ]; then
+        echo "📂 Extracting Flutter..."
+        tar -xf flutter.tar.xz
+        rm flutter.tar.xz
+    fi
     
     echo "✅ Flutter installation completed"
 fi
