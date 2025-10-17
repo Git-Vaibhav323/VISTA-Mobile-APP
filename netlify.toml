@@ -1,14 +1,10 @@
 [build]
   publish = "build/web"
-  command = "npm run build"
+  command = "bash simple_build.sh"
 
 [build.environment]
   FLUTTER_WEB = "true"
   NODE_VERSION = "18"
-  FLUTTER_VERSION = "3.22.2"
-  
-[build.processing]
-  skip_processing = false
 
 [[redirects]]
   from = "/*"
