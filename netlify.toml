@@ -1,27 +1,6 @@
 [build]
   publish = "build/web"
-  command = """
-    # Install Flutter
-    export FLUTTER_HOME=/opt/flutter
-    export PATH=$FLUTTER_HOME/bin:$PATH
-    
-    if [ ! -d "$FLUTTER_HOME" ]; then
-      echo "Installing Flutter..."
-      cd /opt
-      wget -q https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.2-stable.tar.xz
-      tar xf flutter_linux_3.22.2-stable.tar.xz
-      rm flutter_linux_3.22.2-stable.tar.xz
-    fi
-    
-    # Configure Flutter
-    flutter config --no-analytics
-    flutter config --enable-web
-    flutter doctor
-    
-    # Build the app
-    flutter pub get
-    flutter build web --release
-  """
+  command = "chmod +x build_flutter.sh && ./build_flutter.sh"
 
 [build.environment]
   FLUTTER_WEB = "true"
