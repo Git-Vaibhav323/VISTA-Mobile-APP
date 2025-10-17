@@ -1,6 +1,6 @@
 [build]
   publish = "build/web"
-  command = "chmod +x build_flutter.sh && ./build_flutter.sh"
+  command = "npm run build"
 
 [build.environment]
   FLUTTER_WEB = "true"

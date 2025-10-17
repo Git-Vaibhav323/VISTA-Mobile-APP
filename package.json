@@ -1,0 +1,12 @@
+{
+  "name": "vista-mobile-app",
+  "version": "1.0.0",
+  "description": "VISTA Mobile App - Flutter Web Build",
+  "scripts": {
+    "build": "bash install_and_build.sh"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16"
+  }
+}
